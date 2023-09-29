@@ -1,43 +1,23 @@
-version: "3.9"
+version: '3'
 
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.backend # Corrected the Dockerfile name
-    volumes:
-      - ./backend:/app/backend
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=jobber 
-
-  db:
-    image: postgres:14-alpine
-    ports:
-      - '5432:5432'
-    volumes:
-      -  postgres_data:/var/lib/postgresql/data/
-    environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
-  
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.frontend # Corrected the Dockerfile name
-
+      dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
 
-    volumes:
-      - ./frontend:/app/frontend
-
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     depends_on:
-      - backend
+      - db
 
-volumes:
-  postgres_data:
+  db:
+    image: postgres:latest
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
