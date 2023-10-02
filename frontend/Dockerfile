@@ -1,23 +1,18 @@
-# Use an official Node runtime as a parent image
-FROM node:16
+FROM node:14-alpine AS builder
 
-# Set the working directory in the container to /app
-WORKDIR /app
-
-# Copy package.json and package-lock.json into the container at /app
-COPY package*.json ./
-
-# Install dependencies
+WORKDIR /opt/web
+COPY . ./
 RUN npm install
 
-# Copy all files from the current directory into the container at /app
-COPY . .
+ENV PATH="./node_modules/.bin:$PATH"
 
-# Make port 3000 available for the app to use
-EXPOSE 3000
+RUN npm run build
 
-# Define environment variable
-ENV REACT_APP_API_URL=http://backend:8000
-
-# Start the app
-CMD ["npm", "start"]
+FROM nginx:1.20.1-alpine
+RUN apk --no-cache add curl
+RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`uname -s`-`uname -m` -o envsubst && \
+    chmod +x envsubst && \
+    mv envsubst /usr/local/bin
+COPY ./nginx.config /etc/nginx/nginx.template
+CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+COPY --from=builder /opt/web/build /usr/share/nginx/html

@@ -1,21 +1,12 @@
 # Pull base image
 FROM python:3.10.4-slim-bullseye
 # Set environment variables
-
-# Set the working directory in the container to /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 WORKDIR /app
-
-# Copy requirements.txt into the container at /app
-COPY requirements.txt .
-
-# Install dependencies
-RUN pip install -r requirements.txt
-
-# Copy all files from the current directory into the container at /app
-COPY . .
-
-# Make port 8000 available for the app to use
-EXPOSE 8000
-
-# Start the app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY . /app
+RUN sleep 10
+RUN pip3 install -r requirements.txt
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+CMD gunicorn -b 0.0.0.0:8000 --worker-class=gevent --worker-connections=1000 --workers=5 backend.wsgi

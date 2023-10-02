@@ -1,6 +1,14 @@
 asgiref==3.7.2
+cffi==1.16.0
 Django==4.0.10
+gevent==23.9.1
+greenlet==2.0.2
+gunicorn==21.2.0
+packaging==23.2
 psycopg2-binary==2.9.3
+pycparser==2.21
 sqlparse==0.4.4
 typing_extensions==4.8.0
 tzdata==2023.3
+zope.event==5.0
+zope.interface==6.0
