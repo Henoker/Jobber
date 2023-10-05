@@ -1,8 +1,8 @@
-import Landing from "./pages/landing";
+import Landing from './pages/landing';
 
 function App() {
   return (
-    <Landing/>
+   <Landing/>
   );
 }
 
