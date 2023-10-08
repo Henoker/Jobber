@@ -1,12 +1,13 @@
 import React from 'react'
-import logo from '../assets/images/logo.svg'
+import Logo from '../components/Logo'
 import main from '../assets/images/main.svg'
+import Wrapper from '../assets/wrappers/LandingPage'
 
 const Landing = () => {
   return (
-    <main>
+    <Wrapper>
       <nav>
-        <img src={logo} alt='jobify' className='logo'/>
+       <Logo />
       </nav>
       <div className='container page'>
         <div className='info'>
@@ -25,7 +26,7 @@ const Landing = () => {
         </div>
         <img src={main} alt='job hunter' className='img main-img'/>
       </div>
-    </main>
+    </Wrapper>
   )
 }
 
