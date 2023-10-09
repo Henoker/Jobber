@@ -1,6 +1,7 @@
 asgiref==3.7.2
 cffi==1.16.0
-Django==4.0.10
+Django==4.0.
+djangorestframework==3.13.0
 gevent==23.9.1
 greenlet==2.0.2
 gunicorn==21.2.0
