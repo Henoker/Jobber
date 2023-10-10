@@ -14,6 +14,7 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
+      - static_files:/app/staticfiles
     depends_on:
       - database
   
@@ -32,3 +33,7 @@ services:
         - 8000:8000
     depends_on:
         - backend
+    volumes:
+        - static_files:/home/app/staticfiles
+volumes:
+  static_files:
