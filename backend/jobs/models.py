@@ -1,5 +1,5 @@
 from django.db import models  
-from accounts.models import CustomUser
+from django.conf import settings
 
 # Create your models here.
 class Job(models.Model):
@@ -27,4 +27,7 @@ class Job(models.Model):
         default='full-time'
     )
     job_location = models.CharField(blank=False, null=False, max_length=100, default='my city')
-    created_by = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.company
